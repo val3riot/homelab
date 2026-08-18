@@ -1,0 +1,31 @@
+schema_version: 1
+
+hosts:
+  - id: hypervisor
+    hostname: hypervisor
+    status: active
+    role: virtualization
+    address: 192.168.x.x
+    platform: proxmox-ve
+
+  - id: docker-host
+    hostname: docker-host
+    status: active
+    role: container-runtime
+    address: 192.168.x.x
+    platform: debian-vm
+    hypervisor: hypervisor
+
+  - id: network-node
+    hostname: network-node
+    status: active
+    role: infrastructure
+    address: 192.168.x.x
+    platform: linux-arm
+
+  - id: backup-server
+    hostname: backup-server
+    status: planned
+    role: backup
+    address: 192.168.x.x
+    platform: proxmox-backup-server
