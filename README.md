@@ -21,6 +21,7 @@ Docker gira in una VM per mantenere un host Docker convenzionale, lasciare all'h
 - Cloudflare Tunnel e Access per applicazioni web selezionate
 - GitHub Actions e registry OCI per CI/CD
 - filtro DNS, uptime check e dashboard dei servizi
+- file sharing self-hosted tramite SMB, accessibile da LAN e VPN
 
 ## Sicurezza
 

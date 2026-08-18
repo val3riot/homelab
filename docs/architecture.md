@@ -15,6 +15,9 @@ LAN
    +-- hypervisor
    |     `-- VM docker-host
    |           `-- progetti Compose isolati
+   +-- network-node
+   |     `-- storage USB dedicato
+   |           `-- file share SMB
    `-- backup-server
 ```
 
@@ -24,11 +27,38 @@ Una sola VM Docker riduce consumo di risorse e manutenzione. Ogni stack mantiene
 
 Il nodo di rete sempre acceso fornisce DNS, routing privato, connettività tunnel e monitoraggio. Il server di backup è fisicamente indipendente e può rimanere spento fuori dalle finestre operative.
 
+## File share
+
+Il nodo di rete ospita anche un file server Samba. I dati risiedono su un disco
+USB 3.0 dedicato, separato dal filesystem di sistema, collegato tramite UAS e
+formattato con il filesystem Linux nativo `ext4`. Un mount persistente rende
+disponibile una struttura concettuale come questa:
+
+```text
+/srv/storage/
+├── share/
+│   ├── Documents/
+│   ├── Shared/
+│   └── Transfer/
+└── music/
+```
+
+`music/` è soltanto predisposta per un futuro music server. Samba espone la
+directory condivisa tramite SMB; l'unità systemd del servizio dipende dal mount
+dello storage, così un disco non disponibile non causa l'esposizione
+accidentale di una directory vuota sul filesystem di sistema.
+
+Sono stati verificati filesystem, autenticazione SMB, lettura, scrittura,
+trasferimento file e accesso da macOS da remoto tramite Tailscale. Restano da
+verificare i client Linux e Windows e il comportamento definitivo dello standby
+del disco dopo l'uso SMB. Non sono stati eseguiti benchmark di throughput.
+
 ## Failure domain
 
 - Il guasto di uno stack non deve coinvolgere progetti Compose estranei.
 - La VM Docker si recupera tramite backup VM e configurazione versionata.
 - Il nodo di rete richiede backup dedicato perché concentra servizi infrastrutturali.
+- Il file share è storage operativo; una futura copia di backup avrà un ciclo di vita indipendente.
 - La perdita dell'hypervisor di produzione non deve distruggere anche il backup primario.
 
 Il disaster recovery procede dall'infrastruttura verso l'esterno: rete, hypervisor, piattaforma container, applicazioni e infine strumenti accessori.

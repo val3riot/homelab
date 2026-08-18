@@ -22,3 +22,14 @@ Il futuro control plane userà API ristrette e operazioni predefinite. Non espor
 Gli esempi usano placeholder come `admin`, `deploy-user`, `example.com` e `192.168.x.x`. Credenziali e sessioni reali vivono in secret store o file runtime protetti. Prima della condivisione, log e bundle vengono controllati per header di autorizzazione, cookie, URL firmati e valori d'ambiente.
 
 La sicurezza è verificata in CI: il repository privato rifiuta chiavi e artefatti pericolosi, mentre l'albero pubblico generato viene analizzato separatamente per identificatori infrastrutturali e contenuti simili a credenziali.
+
+## File sharing
+
+Il servizio SMB richiede autenticazione e non consente guest access. Un gruppo
+Unix dedicato governa i permessi della share; il bit setgid sulle directory
+condivise mantiene coerente il gruppo dei nuovi file e delle sottodirectory.
+Credenziali e identità reali non fanno parte della configurazione pubblicata.
+
+Il servizio resta raggiungibile soltanto dalla LAN e dalla rete Tailscale. La
+dipendenza systemd dal mount del disco dati evita un fallback silenzioso sul
+filesystem di sistema quando lo storage dedicato non è disponibile.

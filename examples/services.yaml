@@ -17,6 +17,14 @@ services:
     advertised_routes:
       - 192.168.x.x/24
 
+  - id: file-sharing
+    type: smb
+    host: network-node
+    protocol: smb
+    scope:
+      - lan
+      - vpn
+
   - id: backup
     host: backup-server
     protocol: https
