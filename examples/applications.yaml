@@ -1,0 +1,19 @@
+schema_version: 1
+
+applications:
+  - id: example-app
+    status: active
+    host: docker-host
+    runtime: docker-compose
+    project_directory: /srv/compose/example-app
+    services:
+      - api
+      - frontend
+    public_url: https://app.example.com
+    version_strategy: immutable-git-sha
+    deployment_user: deploy-user
+    operations:
+      - status
+      - health
+      - deploy
+      - rollback

@@ -1,0 +1,23 @@
+schema_version: 1
+
+services:
+  - id: container-runtime
+    host: docker-host
+    protocol: local
+
+  - id: example-application
+    host: docker-host
+    protocol: https
+    public_hostname: app.example.com
+    access: identity-aware-proxy
+
+  - id: private-overlay
+    host: network-node
+    protocol: tailscale
+    advertised_routes:
+      - 192.168.x.x/24
+
+  - id: backup
+    host: backup-server
+    protocol: https
+    status: planned
