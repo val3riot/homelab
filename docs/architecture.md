@@ -43,6 +43,23 @@ inferenza al nodo più adatto, senza descriverlo come server always-on.
 
 Il nodo di rete sempre acceso fornisce DNS, routing privato, connettività tunnel e monitoraggio. Il server di backup è fisicamente indipendente e può rimanere spento fuori dalle finestre operative.
 
+## Ingress applicativo target
+
+Il design futuro concentra l'ingress HTTP sul nodo di rete, separandolo dai
+container applicativi:
+
+```text
+edge identity-aware
+   `-- tunnel connector
+         `-- reverse proxy sul network-node
+               `-- backend sul docker-host
+```
+
+Il reverse proxy verrà introdotto senza cambiare subito le porte backend; route
+e servizi saranno migrati uno alla volta. Solo dopo la verifica si valuterà se
+restringere l'accesso diretto agli upstream. Il guasto del nodo di rete rende
+indisponibile l'ingress, mentre i backend possono continuare a funzionare.
+
 ## File share
 
 Il nodo di rete ospita anche un file server Samba. I dati risiedono su un disco
