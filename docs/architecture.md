@@ -57,10 +57,12 @@ edge identity-aware
 ```
 
 Le route restanti e i servizi saranno migrati uno alla volta senza cambiare
-subito le porte backend. Naming locale permanente, convergenza del tunnel,
-TLS interno e restrizione dell'accesso diretto agli upstream restano fasi
-separate. Il guasto del nodo di rete rende indisponibile l'ingress, mentre i
-backend possono continuare a funzionare.
+subito le porte backend. Sulla LAN il pattern è
+`service.home.arpa -> central ingress`: i record dei servizi proxati puntano al
+nodo di ingress, non direttamente ai backend. Convergenza del tunnel, TLS
+interno e restrizione dell'accesso diretto agli upstream restano fasi separate.
+Il guasto del nodo di rete rende indisponibile l'ingress, mentre i backend
+possono continuare a funzionare.
 
 ## File share
 
