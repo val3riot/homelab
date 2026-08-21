@@ -25,6 +25,22 @@ L'hypervisor gestisce ciclo di vita e storage delle VM, senza ospitare direttame
 
 Una sola VM Docker riduce consumo di risorse e manutenzione. Ogni stack mantiene progetto Compose, rete, dati persistenti, configurazione, health check e pipeline indipendenti. Un workload passa a una VM dedicata quando richiede un confine di fiducia, un kernel, una disponibilità o risorse differenti.
 
+## AI locale
+
+```text
+Browser
+   `-- Open WebUI (container sul Docker host)
+         `-- LAN --> Ollama (workstation GPU)
+                       `-- modello locale / NVIDIA GPU
+```
+
+Open WebUI fornisce interfaccia e orchestrazione in un container, con database,
+cronologia e configurazione persistiti fuori dal lifecycle del container. Ollama
+gira su una workstation separata dotata di GPU: il traffico di inferenza resta
+sulla LAN e il modello testato ha usato accelerazione NVIDIA. Questa separazione
+mantiene il workload applicativo sul Docker host e assegna il calcolo di
+inferenza al nodo più adatto, senza descriverlo come server always-on.
+
 Il nodo di rete sempre acceso fornisce DNS, routing privato, connettività tunnel e monitoraggio. Il server di backup è fisicamente indipendente e può rimanere spento fuori dalle finestre operative.
 
 ## File share
