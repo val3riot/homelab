@@ -23,6 +23,13 @@ hosts:
     address: 192.168.x.x
     platform: linux-arm
 
+  - id: gpu-workstation
+    hostname: gpu-workstation
+    status: active-when-available
+    role: gpu-inference
+    address: 192.168.x.x
+    platform: linux-workstation
+
   - id: backup-server
     hostname: backup-server
     status: planned

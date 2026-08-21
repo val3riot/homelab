@@ -17,3 +17,12 @@ applications:
       - health
       - deploy
       - rollback
+
+  - id: local-ai-ui
+    status: active
+    host: docker-host
+    runtime: docker-compose
+    persistent_data: external-bind-mount
+    inference_backend: ollama-gpu-workstation
+    network_scope: lan
+    verification_status: gpu-inference-verified

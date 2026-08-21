@@ -23,3 +23,10 @@ progetto Compose
 I nomi progetto evitano collisioni e, per impostazione predefinita, le applicazioni non condividono volumi scrivibili. Limiti di risorse e rotazione log contengono i noisy neighbor. Un workload ottiene una VM dedicata quando cambiano livello di fiducia, requisiti kernel, disponibilità o profilo risorse.
 
 La piattaforma privilegia file Compose dichiarativi e host ricostruibili. Un'interfaccia grafica può aiutare l'osservazione, ma la configurazione versionata resta autorevole.
+
+Un esempio reale è una UI per modelli locali eseguita come progetto Compose. Il
+suo stato applicativo è un bind mount dedicato esterno al container ed è stato
+verificato dopo un restart. La UI chiama sulla LAN un'API Ollama ospitata da una
+workstation GPU separata; un'inferenza di prova ha confermato l'accelerazione
+GPU. In questo modo lifecycle dell'interfaccia e capacità di calcolo possono
+evolvere indipendentemente.
