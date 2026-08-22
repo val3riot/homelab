@@ -5,13 +5,40 @@ Do not edit generated files directly.
 
 # Homelab
 
-Una piattaforma self-hosted orientata alla sicurezza, creata per sperimentare operazioni infrastrutturali affidabili su piccola scala. Questo repository presenta architettura, automazione e decisioni progettuali senza esporre l'ambiente reale.
+Una piattaforma self-hosted orientata alla sicurezza, creata per sperimentare
+operazioni infrastrutturali affidabili su piccola scala. Non è soltanto una
+raccolta di container: workspace, desired state, provisioning, verifica runtime
+e confini dei secret sono progettati come parti di un sistema Git-driven.
+Questo repository presenta architettura, automazione e decisioni progettuali
+senza esporre l'ambiente reale.
 
 ## Architettura
 
 La piattaforma usa Proxmox come confine di virtualizzazione ed esegue i workload containerizzati condivisi in una VM Debian dedicata. I servizi infrastrutturali risiedono su un nodo di rete a basso consumo, mentre un server di backup indipendente offre un confine di ripristino separato.
 
 Docker gira in una VM per mantenere un host Docker convenzionale, lasciare all'hypervisor il solo compito di virtualizzazione e rendere semplice il backup e ripristino della piattaforma applicativa. La VM Docker condivisa è un compromesso intenzionale di efficienza: ogni applicazione resta isolata tramite progetto Compose, reti, volumi, ambiente, health check e pipeline propri.
+
+## Gestione Git-driven
+
+Un bootstrap deterministico prepara il workspace locale senza configurare
+credenziali o accesso SSH. Le fonti versionate descrivono host e configurazione;
+gli artefatti locali, inclusa l'inventory Ansible generata, sono disposable e
+restano separati dal source of truth.
+
+```text
+versioned desired state
+        → reproducible local tooling
+        → generated inventory
+        → Ansible check and drift review
+        → explicitly authorized apply
+        → post-apply convergence check
+        → separate runtime evidence
+```
+
+Questo processo è stato verificato adottando un primo servizio infrastrutturale
+esistente sotto gestione Ansible e ottenendo zero drift gestito nel controllo
+post-apply. È una baseline di adozione prudente, non una garanzia universale per
+ogni servizio futuro.
 
 ## Stack
 
@@ -20,12 +47,21 @@ Docker gira in una VM per mantenere un host Docker convenzionale, lasciare all'h
 - Tailscale per l'amministrazione privata
 - Cloudflare Tunnel e Access per applicazioni web selezionate
 - GitHub Actions e registry OCI per CI/CD
+- Ansible per provisioning dichiarativo e verifica del drift
 - filtro DNS, uptime check e dashboard dei servizi
 - file sharing self-hosted tramite SMB, accessibile da LAN e VPN
 
 ## Sicurezza
 
-Il design evita il port forwarding sul router. Il traffico amministrativo usa una rete overlay privata; le applicazioni pubblicate attraversano un edge identity-aware. La CI riceve un'identità effimera e raggiunge un utente di deploy ristretto, le cui operazioni consentite sono esplicite. I segreti restano fuori da Git.
+Il design evita il port forwarding sul router. Il traffico amministrativo usa
+una rete overlay privata; le applicazioni pubblicate attraversano un edge
+identity-aware. La CI riceve un'identità effimera e raggiunge un utente di
+deploy ristretto, le cui operazioni consentite sono esplicite.
+
+Per i futuri secret statici distribuibili è stata scelta l'architettura SOPS +
+age: il repository privato potrà contenere ciphertext e recipient pubblici,
+mentre ogni workstation autorizzata manterrà la propria identity privata fuori
+da Git. Tooling e integrazione Ansible non sono ancora implementati.
 
 ## CI/CD
 
@@ -53,7 +89,11 @@ Health check, uptime service, stato dei container, capacità storage e risultati
 
 ## Evoluzione futura
 
-Le attività pianificate comprendono il ripristino bare-metal testato, maggiori garanzie di backup off-site, metriche e alert, manifest applicativi standardizzati e un control plane operativo ristretto basato su azioni consentite e sottoposte ad audit.
+Le attività pianificate comprendono tooling e onboarding per i secret cifrati,
+la loro successiva integrazione nel provisioning, il ripristino bare-metal
+testato, maggiori garanzie di backup off-site, metriche e alert, manifest
+applicativi standardizzati e un control plane operativo ristretto basato su
+azioni consentite e sottoposte ad audit.
 
 ## Flusso dei contributi
 
