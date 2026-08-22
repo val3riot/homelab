@@ -25,6 +25,48 @@ L'hypervisor gestisce ciclo di vita e storage delle VM, senza ospitare direttame
 
 Una sola VM Docker riduce consumo di risorse e manutenzione. Ogni stack mantiene progetto Compose, rete, dati persistenti, configurazione, health check e pipeline indipendenti. Un workload passa a una VM dedicata quando richiede un confine di fiducia, un kernel, una disponibilità o risorse differenti.
 
+## Gestione dichiarativa e riproducibilità
+
+Il repository versionato è il source of truth dichiarativo; directory di
+lavoro e output generati restano locali e ricostruibili. Un bootstrap
+deterministico risolve dinamicamente la propria root, senza dipendere da path
+personali, e valida la struttura del workspace senza installare credenziali o
+configurare SSH. La provisioning toolchain è separata dal bootstrap di base e
+usa Ansible con dipendenze controllate.
+
+```text
+canonical host and configuration data
+        |
+        v
+generated disposable inventory
+        |
+        v
+Ansible desired-state management
+```
+
+Gruppi e variabili di connessione non vengono mantenuti in una seconda
+inventory parallela: l'inventory disposable deriva da attributi canonici
+versionati e viene rigenerata e validata prima dell'uso.
+
+Il workflow operativo separa sempre intenzione e osservazione:
+
+```text
+desired state
+  → offline validation
+  → check and diff
+  → human drift review
+  → explicitly authorized controlled apply
+  → configuration validation
+  → post-apply convergence check
+  → runtime evidence
+```
+
+La prima adozione di un servizio infrastrutturale esistente ha verificato
+questo processo fino a un controllo post-apply senza drift sugli artefatti
+gestiti. Il risultato dimostra la convergenza del target adottato, non
+l'idempotenza universale di ogni futura automazione. Gli snapshot e le altre
+evidence runtime non alimentano automaticamente il desired state.
+
 ## AI locale
 
 ```text
@@ -46,8 +88,8 @@ Il nodo di rete sempre acceso fornisce DNS, routing privato, connettività tunne
 ## Ingress applicativo
 
 La baseline del central ingress HTTP è implementata sul nodo di rete,
-separandola dai container applicativi. Un primo backend applicativo è stato
-verificato end-to-end attraverso il reverse proxy:
+separandola dai container applicativi. Più backend applicativi sono stati
+verificati end-to-end attraverso il reverse proxy:
 
 ```text
 edge identity-aware
@@ -57,10 +99,11 @@ edge identity-aware
 ```
 
 Le route restanti e i servizi saranno migrati uno alla volta senza cambiare
-subito le porte backend. Sulla LAN il pattern è
-`service.home.arpa -> central ingress`: i record dei servizi proxati puntano al
-nodo di ingress, non direttamente ai backend. Convergenza del tunnel, TLS
-interno e restrizione dell'accesso diretto agli upstream restano fasi separate.
+subito le porte backend. Sulla LAN il pattern concettuale è
+`service.internal.example -> central ingress`: i record dei servizi proxati
+puntano al nodo di ingress, non direttamente ai backend. Convergenza del
+tunnel, TLS interno e restrizione dell'accesso diretto agli upstream restano
+fasi separate.
 Il guasto del nodo di rete rende indisponibile l'ingress, mentre i backend
 possono continuare a funzionare.
 
@@ -72,7 +115,7 @@ formattato con il filesystem Linux nativo `ext4`. Un mount persistente rende
 disponibile una struttura concettuale come questa:
 
 ```text
-/srv/storage/
+data-root/
 ├── share/
 │   ├── Documents/
 │   ├── Shared/
