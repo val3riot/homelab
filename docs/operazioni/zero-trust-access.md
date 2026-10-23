@@ -1,3 +1,5 @@
+[Indice della sezione](indice.md) · [Indice](../indice.md)
+
 # Accesso
 
 Tailscale collega dispositivi autorizzati alla LAN tramite subnet router.

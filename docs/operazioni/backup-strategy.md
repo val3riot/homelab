@@ -1,3 +1,5 @@
+[Indice della sezione](indice.md) · [Indice](../indice.md)
+
 # Backup pianificato
 
 Proxmox Backup Server non è installato e non sono ancora operativi backup

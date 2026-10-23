@@ -1,3 +1,5 @@
+[Indice della sezione](indice.md) · [Indice](../indice.md)
+
 # Architettura
 
 | Componente | Ruolo |

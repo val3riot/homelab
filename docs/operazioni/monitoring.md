@@ -1,3 +1,5 @@
+[Indice della sezione](indice.md) · [Indice](../indice.md)
+
 # Monitoraggio
 
 Uptime Kuma sul nodo di rete fornisce controlli di disponibilità.

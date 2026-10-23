@@ -1,3 +1,5 @@
+[Indice della sezione](indice.md) · [Indice](../indice.md)
+
 # Rete e DNS
 
 Gli esempi usano nomi e indirizzi generici, non la configurazione reale.

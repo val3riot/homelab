@@ -23,15 +23,8 @@ come esperienza, non come servizio corrente.
 
 ## Guide
 
-- [Architettura](docs/architecture.md)
-- [Rete e DNS](docs/networking.md)
-- [Piattaforma Docker](docs/docker-platform.md)
-- [Accesso](docs/zero-trust-access.md)
-- [CI/CD](docs/cicd.md)
-- [Backup pianificato](docs/backup-strategy.md)
-- [Monitoraggio](docs/monitoring.md)
-- [Sicurezza](docs/security-model.md)
-- [Inventario di esempio](examples/hosts.yaml)
+[Indice della documentazione](docs/indice.md): architettura/rete e operazioni/sicurezza.
+[Inventario di esempio](examples/hosts.yaml).
 
 Il pubblico è generato: export allowlisted -> validazione -> branch automatico
 -> PR -> merge manuale. Nessuna sincronizzazione automatica verso il privato.

@@ -1,3 +1,5 @@
+[Indice della sezione](indice.md) · [Indice](../indice.md)
+
 # Piattaforma Docker
 
 Docker gira in una VM Debian su Proxmox. L'hypervisor resta dedicato alle VM;
