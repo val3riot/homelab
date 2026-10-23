@@ -1,32 +1,23 @@
 # Piattaforma Docker
 
-## Perché Docker gira in una VM Proxmox
+Docker gira in una VM Debian su Proxmox. L'hypervisor resta dedicato alle VM;
+i tool condividono il runtime, mantenendo progetti Compose e dati separati.
+Ogni stack ha rete, ambiente privato, dati persistenti e gestione del ciclo di vita.
 
-Una VM Debian convenzionale separa l'amministrazione dell'hypervisor dalle operazioni applicative. Evita di concedere agli strumenti applicativi accesso al nodo Proxmox, segue i normali percorsi di aggiornamento Docker e rende l'intero runtime una singola unità coerente di backup e restore.
+Open WebUI conserva utenti/chat fuori dal container e usa Ollama su una
+workstation GPU in LAN. La UI sopravvive ai redeploy grazie al mount dati;
+la disponibilità dell'inferenza dipende dalla workstation.
+Portainer è il pannello amministrativo, non una sostituzione delle configurazioni.
 
-## Perché una VM condivisa
+Il runtime container ha storage separato dai dati applicativi. Health check
+presenti dove configurati; limiti risorse e logging uniforme restano da
+standardizzare. I tag immagini correnti non sono tutti immutabili.
 
-Un `docker-host` condiviso è proporzionato per workload personali fidati e contenuti: riduce memoria a riposo, patching e configurazioni di base duplicate. Non viene però gestito come un unico stack indistinto.
+Il nodo di rete esegue solo i container infrastrutturali necessari, mentre
+DNS, VPN, proxy e Samba sono servizi nativi. Tool accessori dismessi non sono
+ripristinati automaticamente.
 
-Ogni applicazione possiede:
+## Laboratorio pianificato
 
-```text
-progetto Compose
-├── file Compose
-├── ambiente fornito fuori da Git
-├── reti dedicate
-├── dati persistenti dedicati
-├── health check
-└── versioni immutabili delle immagini
-```
-
-I nomi progetto evitano collisioni e, per impostazione predefinita, le applicazioni non condividono volumi scrivibili. Limiti di risorse e rotazione log contengono i noisy neighbor. Un workload ottiene una VM dedicata quando cambiano livello di fiducia, requisiti kernel, disponibilità o profilo risorse.
-
-La piattaforma privilegia file Compose dichiarativi e host ricostruibili. Un'interfaccia grafica può aiutare l'osservazione, ma la configurazione versionata resta autorevole.
-
-Un esempio reale è una UI per modelli locali eseguita come progetto Compose. Il
-suo stato applicativo è un bind mount dedicato esterno al container ed è stato
-verificato dopo un restart. La UI chiama sulla LAN un'API Ollama ospitata da una
-workstation GPU separata; un'inferenza di prova ha confermato l'accelerazione
-GPU. In questo modo lifecycle dell'interfaccia e capacità di calcolo possono
-evolvere indipendentemente.
+Una VM distinta ospiterà Kubernetes, Jenkins e deploy di test. Non è ancora
+creata; risorse e topologia vanno definite prima dell'installazione.

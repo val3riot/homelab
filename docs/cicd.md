@@ -1,22 +1,24 @@
 # CI/CD
 
-Il modello di delivery separa la build applicativa dal deploy specifico dell'ambiente.
+## Pipeline attiva: documentazione
 
 ```text
-commit sorgente
-  → test
-  → build immagine OCI
-  → tag immutabile con Git SHA
-  → workflow di deploy
-  → identità temporanea sulla rete privata
-  → operazione di deploy ristretta
-  → verifica health
+sorgenti private allowlisted
+  -> export e controlli anti-leak
+  -> commit sul branch pubblico automatico
+  -> Pull Request
+  -> review e merge manuali
 ```
 
-Le immagini sono identificate dallo SHA Git completo: l'artefatto in esecuzione è tracciabile e non dipende da tag di produzione mutabili. Un deploy seleziona una revisione esatta; il rollback seleziona una revisione precedente nota, senza ricostruirla.
+L'output pubblico non è sorgente del privato. I secret GitHub sono forniti
+al job senza copiarli nei file esportati. Non si esegue push diretto alla main pubblica.
 
-I segreti runtime sono forniti dall'ambiente di destinazione e non vengono inclusi nelle immagini o nei file Compose. Le credenziali CI risiedono nei secret GitHub e il runner riceve soltanto i permessi richiesti dal job corrente.
+## Esperienza applicativa precedente
 
-Gli stack applicativi restano indipendenti: una pipeline modifica solo il proprio progetto, valida la configurazione, scarica le immagini selezionate, avvia i servizi e ne controlla lo stato. Un'approvazione manuale può proteggere l'ambiente senza modificare l'artefatto.
+La pipeline applicativa dismessa separava build OCI e deploy: tag Git SHA
+immutabile, identità CI temporanea su rete privata, SSH con operazioni
+allowlisted e health check. Il rollback selezionava un'immagine nota.
+Non è una pipeline di deploy attualmente operativa.
 
-La pipeline della documentazione pubblica applica lo stesso modello di revisione: esporta un'allowlist privata, verifica l'assenza di riferimenti riservati, aggiorna un branch automatico e apre una Pull Request. Non aggiorna mai direttamente la `main` pubblica.
+Il prossimo laboratorio Kubernetes/Jenkins servirà a provare nuovamente
+build, deploy, aggiornamento e rollback su un'applicazione di test.
