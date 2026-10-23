@@ -13,10 +13,11 @@ Questa documentazione descrive l'architettura senza indirizzi o credenziali real
 - Tailscale per accesso privato; Cloudflare Tunnel/Access per servizi selezionati.
 - Nginx per le route LAN; Ansible per configurazione e verifica del drift.
 - GitHub Actions per export controllato della documentazione pubblica.
+- Laboratorio separato K3s/Jenkins, installato con Compose e ad avvio manuale.
 
 ## Pianificato
 
-Kubernetes/Jenkins nella VM laboratorio già creata, backup centralizzato PBS e
+Cluster OpenShift separato (client oc disponibile), backup centralizzato PBS e
 gestione secret SOPS/age. Questi componenti non sono ancora implementati.
 La precedente pipeline applicativa è dismessa; il suo modello resta documentato
 come esperienza, non come servizio corrente.

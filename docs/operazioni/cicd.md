@@ -22,5 +22,6 @@ immutabile, identità CI temporanea su rete privata, SSH con operazioni
 allowlisted e health check. Il rollback selezionava un'immagine nota.
 Non è una pipeline di deploy attualmente operativa.
 
-Il prossimo laboratorio Kubernetes/Jenkins servirà a provare nuovamente
-build, deploy, aggiornamento e rollback su un'applicazione di test.
+Il laboratorio K3s/Jenkins è installato ad avvio manuale. Pipeline, build e
+deploy di esercizio sono ancora da configurare; il setup applicativo è separato
+dalla verifica di avvio dei servizi.

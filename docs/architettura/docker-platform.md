@@ -22,4 +22,6 @@ ripristinati automaticamente.
 ## Laboratorio
 
 La VM distinta per Kubernetes/Jenkins e deploy di test è stata creata.
-Base Debian e accesso SSH pronti; orchestratore e CI ancora da configurare.
+K3s e Jenkins sono installati tramite Compose con dati persistenti e avvio
+manuale. Nessun riavvio automatico dei container; il laboratorio si spegne a
+fine uso. La configurazione di pipeline resta un esercizio successivo.
