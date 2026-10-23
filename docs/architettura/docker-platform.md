@@ -19,7 +19,7 @@ Il nodo di rete esegue solo i container infrastrutturali necessari, mentre
 DNS, VPN, proxy e Samba sono servizi nativi. Tool accessori dismessi non sono
 ripristinati automaticamente.
 
-## Laboratorio pianificato
+## Laboratorio
 
-Una VM distinta ospiterà Kubernetes, Jenkins e deploy di test. Non è ancora
-creata; risorse e topologia vanno definite prima dell'installazione.
+La VM distinta per Kubernetes/Jenkins e deploy di test è stata creata.
+Base Debian e accesso SSH pronti; orchestratore e CI ancora da configurare.

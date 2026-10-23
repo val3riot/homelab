@@ -16,7 +16,7 @@ Questa documentazione descrive l'architettura senza indirizzi o credenziali real
 
 ## Pianificato
 
-VM laboratorio separata per Kubernetes/Jenkins, backup centralizzato PBS e
+Kubernetes/Jenkins nella VM laboratorio già creata, backup centralizzato PBS e
 gestione secret SOPS/age. Questi componenti non sono ancora implementati.
 La precedente pipeline applicativa è dismessa; il suo modello resta documentato
 come esperienza, non come servizio corrente.
