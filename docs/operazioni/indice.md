@@ -4,6 +4,6 @@
 
 - [Accessi](zero-trust-access.md)
 - [CI/CD](cicd.md)
-- [Backup pianificato](backup-strategy.md)
+- [Backup](backup-strategy.md)
 - [Monitoraggio](monitoring.md)
 - [Sicurezza](security-model.md)

@@ -17,5 +17,20 @@ raggiungibile sulla subnet autorizzata. La raggiungibilità del nodo overlay
 non implica che ogni sua porta sia autorizzata: resolver e policy devono coincidere.
 
 Nessun port forwarding sul router. Il DNS e il proxy sono concentrati sul nodo
-di rete; la sua disponibilità è una dipendenza nota. TLS interno e restrizioni
-ulteriori degli upstream sono attività separate, non già completate.
+di rete; la sua disponibilità è una dipendenza nota. Il proxy offre HTTPS
+con CA locale sui dispositivi personali e redirect da HTTP. La chiave della CA
+resta separata dal server; ogni client deve importare il certificato pubblico.
+La cifratura e la verifica TLS dei singoli upstream restano aspetti distinti.
+
+Le UI amministrative ordinarie, il monitoraggio e la homepage hanno nomi DNS
+privati sotto Nginx, inclusa una route predisposta per il laboratorio spento.
+Questa risponde temporaneamente 503 senza avviare la VM.
+Il proxy verifica il certificato dell’hypervisor usando la sua CA pubblica;
+WebSocket e protocolli applicativi restano da verificare per ciascun servizio.
+
+Per le applicazioni pubblicate Cloudflare gestisce il certificato lato browser;
+questo non sostituisce i certificati dell’accesso LAN diretto. Non sono stati
+aggiunti client ACME esterni. Il password manager non ha una route pubblica.
+Il tunnel ha due connettori su host distinti: un origin loopback non è
+intercambiabile fra le repliche; gli origin condivisi devono essere raggiungibili
+da entrambe.

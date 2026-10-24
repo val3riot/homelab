@@ -9,7 +9,8 @@
 | Nodo di rete | DNS, Nginx, Tailscale, tunnel, Samba e monitoraggio |
 | VM laboratorio | K3s/Jenkins installati; avvio manuale |
 | Workstation GPU | Ollama; disponibile quando la workstation è accesa |
-| Server backup | pianificato, non operativo |
+| Disco backup separato | copie applicative/VM attive, copertura parziale |
+| Server PBS separato | pianificato, non operativo |
 
 ```text
 LAN / overlay privata -> DNS locale -> Nginx -> tool sulla VM Docker
@@ -19,7 +20,7 @@ Nodo di rete -> storage USB -> share SMB
 ```
 
 Le route web remote usano ancora origin diretti; la convergenza sul proxy è
-un progetto separato. Il guasto del nodo di rete interrompe DNS, ingress,
+un progetto separato. Il password manager resta privato su LAN/VPN. Il guasto del nodo di rete interrompe DNS, ingress,
 accesso remoto e share, anche se i container della VM restano vivi.
 
 Il desired state è versionato. Ansible usa inventory generata e toolchain

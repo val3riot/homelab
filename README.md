@@ -10,6 +10,8 @@ Questa documentazione descrive l'architettura senza indirizzi o credenziali real
 - Docker Compose con dati persistenti separati dai container.
 - Open WebUI sulla VM e Ollama su una workstation GPU in LAN.
 - Portainer, DNS locale, Uptime Kuma e Samba.
+- Gitea rootless con PostgreSQL; password manager ufficiale Lite su LAN/VPN.
+- Backup applicativi e della VM su un disco separato, con copertura parziale.
 - Tailscale per accesso privato; Cloudflare Tunnel/Access per servizi selezionati.
 - Nginx per le route LAN; Ansible per configurazione e verifica del drift.
 - GitHub Actions per export controllato della documentazione pubblica.

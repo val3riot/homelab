@@ -4,7 +4,8 @@
 
 - Nessun port forwarding sul router.
 - Accesso remoto privato tramite overlay autenticata e subnet policy.
-- Cloudflare Access e login applicativo per i servizi web selezionati.
+- Cloudflare Access o autenticazione applicativa secondo il servizio pubblicato.
+- Password manager privato su LAN/VPN, senza tunnel pubblico.
 - SMB con autenticazione, gruppo dedicato e nessun guest access.
 - Secret, chiavi private e dati applicativi fuori dal source control.
 - Export pubblico allowlisted e validato separatamente dal repository privato.
@@ -19,4 +20,6 @@ In futuro saranno versionabili ciphertext e recipient pubblici, mantenendo
 identity private e recovery offline fuori da Git. Ricifrare non equivale a
 revocare una credenziale presente in vecchi commit o copie.
 
-Backup indipendenti e restore provati sono obiettivi ancora da implementare.
+Backup su disco separato attivi con copertura parziale; ripristino isolato del
+password manager e integrità degli archivi VM verificati. Copertura completa,
+restore VM e protezione off-site restano da completare.
