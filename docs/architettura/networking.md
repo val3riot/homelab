@@ -34,3 +34,10 @@ aggiunti client ACME esterni. Il password manager non ha una route pubblica.
 Il tunnel ha due connettori su host distinti: un origin loopback non è
 intercambiabile fra le repliche; gli origin condivisi devono essere raggiungibili
 da entrambe.
+
+Una pagina statica di indisponibilità gestisce nomi privati non configurati e
+backend fermi. DNS e wildcard TLS della zona locale permettono di raggiungere
+il proxy anche con un nome locale sconosciuto; HTTP 404 e 503 restano errori,
+mentre i codici applicativi di autenticazione e le risorse mancanti sono
+preservati. Un problema DNS esterno o un proxy irraggiungibile resta gestito
+dal browser, perché la richiesta non arriva alla pagina.
